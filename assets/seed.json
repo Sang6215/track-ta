@@ -1,0 +1,949 @@
+{
+  "version": 1,
+  "source": "Lich_Tap_5_Ngay_Tuan.xlsx",
+  "weeks": 8,
+  "days": [
+    {
+      "weekday": 1,
+      "name": "Upper",
+      "subtitle": "Thân trên · Sức mạnh nền tảng",
+      "sourceSheet": "Th2 - Upper",
+      "exercises": [
+        {
+          "id": "d1e1",
+          "name": "Đẩy ngực ghế bằng thanh đòn (Barbell Bench Press)",
+          "target": "6-8",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 4
+        },
+        {
+          "id": "d1e2",
+          "name": "Kéo lưng xô rộng tay (Lat Pulldown)",
+          "target": "8-10",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 8
+        },
+        {
+          "id": "d1e3",
+          "name": "Machine Shoulder Press",
+          "target": "8-10",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 12
+        },
+        {
+          "id": "d1e4",
+          "name": "Chèo thuyền thanh đòn/tạ đơn (Barbell/DB Row)",
+          "target": "8-10",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 15
+        },
+        {
+          "id": "d1e5",
+          "name": "Cuốn tạ tay trước (Dumbbell Bicep Curl)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 18
+        },
+        {
+          "id": "d1e6",
+          "name": "Kéo cáp tay sau (Tricep Pushdown)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 21
+        }
+      ]
+    },
+    {
+      "weekday": 2,
+      "name": "Lower",
+      "subtitle": "Thân dưới · Đùi trước & sức mạnh",
+      "sourceSheet": "Th3 - Lower",
+      "exercises": [
+        {
+          "id": "d2e1",
+          "name": "hack squat",
+          "target": "6-8",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 4
+        },
+        {
+          "id": "d2e2",
+          "name": "Đạp đùi (Leg Press)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 8
+        },
+        {
+          "id": "d2e3",
+          "name": "Móc đùi sau (Leg Curl)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 11
+        },
+        {
+          "id": "d2e4",
+          "name": "Nhón gót (Calf Raise)",
+          "target": "15-20",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 14
+        },
+        {
+          "id": "d2e5",
+          "name": "Gập bụng (Crunch)",
+          "target": "15-20",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 18
+        },
+        {
+          "id": "d2e6",
+          "name": "Plank",
+          "target": "45-60s",
+          "sets": 3,
+          "timed": true,
+          "assisted": false,
+          "sourceRow": 21
+        }
+      ]
+    },
+    {
+      "weekday": 4,
+      "name": "Push",
+      "subtitle": "Ngực, vai & tay sau",
+      "sourceSheet": "Th5 - Push",
+      "exercises": [
+        {
+          "id": "d4e1",
+          "name": "Đẩy ngực dốc máy (Incline Machine Press)",
+          "target": "8-10",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 4
+        },
+        {
+          "id": "d4e2",
+          "name": "pec dec fly",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 7
+        },
+        {
+          "id": "d4e3",
+          "name": "Đẩy vai máy (Machine Shoulder Press)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 10
+        },
+        {
+          "id": "d4e4",
+          "name": "Dang vai (Lateral Raise)",
+          "target": "12-15",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 13
+        },
+        {
+          "id": "d4e5",
+          "name": "Duỗi tay sau qua đầu (Overhead Tricep Ext)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 17
+        }
+      ]
+    },
+    {
+      "weekday": 5,
+      "name": "Pull",
+      "subtitle": "Lưng, xô & tay trước",
+      "sourceSheet": "Th6 - Pull",
+      "exercises": [
+        {
+          "id": "d5e1",
+          "name": "Kéo xô hẹp tay (V-Bar Lat Pulldown)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 4
+        },
+        {
+          "id": "d5e2",
+          "name": "Hít xà trợ lực (Assisted Pull-up)",
+          "target": "6-8",
+          "sets": 3,
+          "timed": false,
+          "assisted": true,
+          "sourceRow": 7
+        },
+        {
+          "id": "d5e3",
+          "name": "Ngồi chèo cáp (Seated Cable Row)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 10
+        },
+        {
+          "id": "d5e4",
+          "name": "Kéo cáp ngang mặt (Face Pull)",
+          "target": "12-15",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 13
+        },
+        {
+          "id": "d5e5",
+          "name": "Cuốn tạ hình búa (Hammer Curl)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 16
+        },
+        {
+          "id": "d5e6",
+          "name": "Cuốn tay trước ghế dốc (Incline DB Curl)",
+          "target": "10-12",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 19
+        }
+      ]
+    },
+    {
+      "weekday": 6,
+      "name": "Legs",
+      "subtitle": "Chân, mông & bụng",
+      "sourceSheet": "Th7 - Legs",
+      "exercises": [
+        {
+          "id": "d6e1",
+          "name": "Deadlift chân thẳng (Romanian Deadlift)",
+          "target": "8-10",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 4
+        },
+        {
+          "id": "d6e2",
+          "name": "Chùng chân tạ đơn (Dumbbell Lunges)",
+          "target": "10-12 bước/chân",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 8
+        },
+        {
+          "id": "d6e3",
+          "name": "Đá đùi trước (Leg Extension)",
+          "target": "12-15",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 11
+        },
+        {
+          "id": "d6e4",
+          "name": "Nhón gót ngồi (Seated Calf Raise)",
+          "target": "15-20",
+          "sets": 4,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 14
+        },
+        {
+          "id": "d6e5",
+          "name": "Treo người nâng chân / Gập bụng cáp",
+          "target": "15",
+          "sets": 3,
+          "timed": false,
+          "assisted": false,
+          "sourceRow": 18
+        }
+      ]
+    }
+  ],
+  "entries": {
+    "1:d1e1:1": {
+      "weight": "2x10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e1:2": {
+      "weight": "2x12.5kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e1:3": {
+      "weight": "2x12.5kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e2:1": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e2:2": {
+      "weight": "35kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e2:3": {
+      "weight": "35kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e2:4": {
+      "weight": "35kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e3:1": {
+      "weight": "2x10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e3:2": {
+      "weight": "2x15kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e3:3": {
+      "weight": "2x15kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e4:1": {
+      "weight": "35kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e4:2": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e4:3": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e5:1": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e5:2": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e5:3": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e6:1": {
+      "weight": "20kg",
+      "reps": "9",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e6:2": {
+      "weight": "20kg",
+      "reps": "9",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d1e6:3": {
+      "weight": "20kg",
+      "reps": "9",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d2e1:1": {
+      "weight": "2x15kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d2e1:2": {
+      "weight": "2x15kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d2e1:3": {
+      "weight": "2x15kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e1:1": {
+      "weight": "2x10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e1:1": {
+      "weight": "2x10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e1:2": {
+      "weight": "2x12kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e1:2": {
+      "weight": "2x13kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e1:3": {
+      "weight": "2x12kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e1:3": {
+      "weight": "2x13kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e2:1": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e2:1": {
+      "weight": "25kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e2:2": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e2:2": {
+      "weight": "25kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e2:3": {
+      "weight": "25kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e2:3": {
+      "weight": "25kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e3:1": {
+      "weight": "10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e3:1": {
+      "weight": "2x12kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e3:2": {
+      "weight": "10kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e3:2": {
+      "weight": "2x12kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e3:3": {
+      "weight": "10kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e3:3": {
+      "weight": "2x12kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e4:1": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e4:1": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e4:2": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e4:2": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e4:3": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e4:3": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e4:4": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e4:4": {
+      "weight": "5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e5:1": {
+      "weight": "30kg",
+      "reps": "15",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e5:1": {
+      "weight": "35kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e5:2": {
+      "weight": "35kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e5:2": {
+      "weight": "35kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d4e5:3": {
+      "weight": "35kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d4e5:3": {
+      "weight": "35kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e1:1": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e1:1": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e1:1": {
+      "weight": "35kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e1:2": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e1:2": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e1:2": {
+      "weight": "35kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e1:3": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e1:3": {
+      "weight": "40kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e1:3": {
+      "weight": "35kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e2:1": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e2:1": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e2:1": {
+      "weight": "50kg",
+      "reps": "7",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e2:2": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e2:2": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e2:2": {
+      "weight": "50kg",
+      "reps": "7",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e2:3": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e2:3": {
+      "weight": "50kg",
+      "reps": "6",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e2:3": {
+      "weight": "50kg",
+      "reps": "7",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e3:1": {
+      "weight": "2x20kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e3:1": {
+      "weight": "2x20kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e3:1": {
+      "weight": "2x20kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e3:2": {
+      "weight": "2x20kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e3:2": {
+      "weight": "2x20kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e3:2": {
+      "weight": "2x20kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e3:3": {
+      "weight": "2x20kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e3:3": {
+      "weight": "2x20kg",
+      "reps": "11",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e3:3": {
+      "weight": "2x20kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e4:1": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e4:1": {
+      "weight": "30kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e4:1": {
+      "weight": "30kg",
+      "reps": "13",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e4:2": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e4:2": {
+      "weight": "30kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e4:2": {
+      "weight": "30kg",
+      "reps": "13",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e4:3": {
+      "weight": "30kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e4:3": {
+      "weight": "30kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e4:3": {
+      "weight": "30kg",
+      "reps": "13",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e5:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e5:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e5:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e5:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e5:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e5:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e5:3": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e5:3": {
+      "weight": "2x7.5kg",
+      "reps": "8",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e5:3": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e6:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e6:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e6:1": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e6:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e6:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e6:2": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "1:d5e6:3": {
+      "weight": "2x5kg",
+      "reps": "10",
+      "note": "",
+      "source": "excel"
+    },
+    "2:d5e6:3": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    },
+    "3:d5e6:3": {
+      "weight": "2x5kg",
+      "reps": "12",
+      "note": "",
+      "source": "excel"
+    }
+  }
+}

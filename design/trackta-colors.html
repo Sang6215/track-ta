@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Tạ — Chọn màu chủ đạo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#080D0B; --screen:#0E1513; --surface:#17211E; --raised:#1F2D28;
+  --border:#2B3B34; --text:#F3F6EF; --muted:#A7B8AF; --muted2:#7E9187;
+  --lime:#D4F58A; --ink:#0E1513;
+  --font-display:'Barlow Condensed','Arial Narrow',sans-serif;
+  --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+.tc-root,.tc-root *{box-sizing:border-box}
+.tc-root{
+  min-height:100vh;margin:0;color:var(--text);font-family:var(--font-body);
+  background-color:#080D0B;
+  background-image:
+    radial-gradient(900px 500px at 8% -8%, rgba(212,245,138,.07), transparent 60%),
+    radial-gradient(800px 520px at 96% 3%, rgba(107,155,255,.08), transparent 58%),
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size:auto,auto,32px 32px,32px 32px;
+  -webkit-font-smoothing:antialiased;
+}
+.tc-root button{font:inherit;color:inherit;background:none;border:0}
+.tc-root svg{display:block}
+.ico{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.board{max-width:1200px;margin:0 auto;padding:42px 30px 46px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;margin-bottom:30px}
+.eyebrow{font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--lime);font-weight:600}
+h1{font-family:var(--font-display);font-size:66px;line-height:.88;font-weight:600;letter-spacing:-1.3px;margin:10px 0 0}
+h1 span{color:var(--lime)}
+.lede{max-width:610px;margin:14px 0 0;font-size:13px;line-height:1.7;color:#C1CEC7}
+.meta{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end;max-width:330px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);font-size:9.5px;color:#C5D2CB}
+.pill.current{color:var(--ink);background:var(--lime);border-color:var(--lime);font-weight:600}
+.pill .sw{width:7px;height:7px;border-radius:50%;background:var(--lime)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.option{
+  --primary:#D4F58A; --on-primary:#0E1513; --primary-soft:rgba(212,245,138,.12);
+  --secondary:#81CDB8; --danger:#FF6B6B;
+  position:relative;padding:15px;border-radius:22px;border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+  display:flex;flex-direction:column;gap:12px;
+}
+.option.orange{--primary:#FF6B35;--on-primary:#17100C;--primary-soft:rgba(255,107,53,.14);--secondary:#2DD4BF;--danger:#FF5D6C}
+.option.cyan{--primary:#5EEAD4;--on-primary:#06201B;--primary-soft:rgba(94,234,212,.12);--secondary:#F5C451;--danger:#FF6B6B}
+.option.cobalt{--primary:#6B9BFF;--on-primary:#07101F;--primary-soft:rgba(107,155,255,.15);--secondary:#D4F58A;--danger:#FF6B6B}
+.option.recommended{border-color:rgba(212,245,138,.38);box-shadow:0 30px 70px -50px rgba(212,245,138,.55)}
+.opt-head{display:flex;align-items:flex-start;gap:8px}
+.opt-head .num{font-family:var(--font-display);font-size:18px;line-height:1;color:var(--primary);width:20px;flex:none}
+.opt-head h2{font-family:var(--font-display);font-size:25px;line-height:1;font-weight:600;letter-spacing:-.3px;margin:0}
+.opt-head p{font-size:10.5px;line-height:1.5;color:var(--muted);margin:4px 0 0}
+.badge{position:absolute;top:14px;right:14px;font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:99px}
+.badge.rec{background:var(--lime);color:var(--ink)}
+.badge.alt{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted)}
+
+.phone{
+  width:278px;height:438px;margin:0 auto;padding:8px;border-radius:36px;
+  background:linear-gradient(155deg,#1A2822,#070C0A 60%,#030604);
+  border:1px solid #2A3B33;box-shadow:0 28px 50px -30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06);
+  flex:none;
+}
+.ph-screen{width:100%;height:100%;border-radius:29px;background:var(--screen);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.ph-status{height:22px;display:flex;align-items:center;justify-content:space-between;padding:3px 14px 0;font-size:7px;color:var(--text)}
+.ph-dots{display:flex;gap:3px;align-items:center}
+.ph-dots i{display:block;width:3px;height:3px;border-radius:50%;background:var(--muted2)}
+.ph-bar{height:30px;display:flex;align-items:center;gap:6px;padding:0 12px}
+.ph-logo{width:23px;height:23px;border-radius:7px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center}
+.ph-logo .ico{width:13px;height:13px;stroke-width:2.2}
+.ph-wm{font-family:var(--font-display);font-size:16px;font-weight:600;letter-spacing:-.3px}
+.ph-timer{margin-left:auto;display:flex;align-items:center;gap:3px;height:20px;padding:0 6px;border-radius:99px;background:var(--primary-soft);border:1px solid color-mix(in srgb, var(--primary) 30%, transparent);color:var(--primary);font-size:6.5px;font-weight:600}
+.ph-timer .ico{width:9px;height:9px}
+.ph-body{flex:1;padding:3px 12px 0;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.ph-week{display:flex;align-items:center;justify-content:space-between;font-size:6px;color:var(--muted2);padding:0 1px}
+.ph-week b{color:var(--primary);font-size:6.5px;letter-spacing:.08em;display:block}
+.ph-week span{display:block;margin-top:1px}
+.ph-days{display:flex;gap:2px;justify-content:space-between}
+.ph-day{width:30px;height:38px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:5px;color:var(--muted2)}
+.ph-day b{font-family:var(--font-display);font-size:12px;line-height:1;color:var(--text);font-weight:500}
+.ph-day.active{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.ph-day.active b{color:var(--on-primary);font-weight:600}
+.ph-card{border-radius:13px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));padding:7px 8px}
+.ph-card .k{font-size:5.5px;letter-spacing:.1em;color:var(--primary);font-weight:600}
+.ph-card h3{font-family:var(--font-display);font-size:14px;line-height:1.05;font-weight:600;margin:2px 0 0;letter-spacing:-.1px}
+.ph-card .meta{display:flex;justify-content:space-between;font-size:5.5px;color:var(--muted2);margin-top:3px}
+.ph-progress{height:3px;border-radius:99px;background:rgba(255,255,255,.10);margin-top:5px;overflow:hidden}
+.ph-progress i{display:block;height:100%;width:67%;background:var(--primary);border-radius:99px}
+.ph-sec{display:flex;justify-content:space-between;font-size:6px;color:var(--muted2);padding:1px 1px 0}
+.ph-ex{border-radius:12px;background:var(--surface);border:1px solid var(--border);padding:6px 7px}
+.ph-exhead{display:flex;align-items:center;gap:4px}
+.ph-exhead .n{font-family:var(--font-display);font-size:8px;color:var(--primary);width:10px}
+.ph-exhead b{font-size:8.5px;font-weight:600;color:var(--text)}
+.ph-exhead .tag{margin-left:auto;font-size:5px;text-transform:uppercase;letter-spacing:.04em;padding:2px 4px;border-radius:3px;background:var(--primary);color:var(--on-primary);font-weight:700}
+.ph-meta{display:flex;gap:6px;font-size:5.3px;color:var(--muted2);margin:3px 0 4px 14px}
+.ph-meta b{color:var(--text);font-weight:600}
+.ph-set{display:grid;grid-template-columns:15px 1fr 1fr 14px;gap:2px;align-items:center;padding:3px 4px;border-radius:5px;font-size:5.8px;color:var(--muted2);background:rgba(255,255,255,.02);margin-top:2px}
+.ph-set b{color:var(--text);font-weight:600}
+.ph-set .ok{color:var(--primary);font-size:7px;text-align:right}
+.ph-set.active{background:var(--primary-soft);border:1px solid color-mix(in srgb, var(--primary) 40%, transparent);color:var(--text)}
+.ph-set.active b{color:var(--primary)}
+.ph-set .ghi{background:var(--primary);color:var(--on-primary);font-size:4.8px;font-weight:700;padding:2px 3px;border-radius:3px;text-align:center}
+.ph-cta{margin-top:1px;height:28px;border-radius:8px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;gap:3px;font-size:7px;font-weight:700}
+.ph-cta .ico{width:9px;height:9px;stroke-width:2.4}
+.ph-nav{margin-top:auto;height:36px;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding-bottom:2px}
+.ph-nav div{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:4.8px;color:var(--muted2);position:relative}
+.ph-nav div.active{color:var(--primary)}
+.ph-nav .ico{width:10px;height:10px}
+.ph-nav div.active::before{content:"";position:absolute;top:-7px;width:12px;height:1.5px;border-radius:99px;background:var(--primary)}
+
+.palette{display:flex;gap:5px}
+.palette div{flex:1;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.09)}
+.palette-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;font-size:6px;color:var(--muted2);margin-top:3px;text-align:center}
+.palette-labels b{display:block;color:var(--text);font-size:6.5px;font-weight:600}
+.notes{display:flex;flex-direction:column;gap:4px;font-size:9.5px;line-height:1.45;color:var(--muted)}
+.notes b{color:var(--text);font-weight:600}
+.note-tag{display:inline-flex;align-items:center;gap:3px;font-size:6.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.hex{font-family:var(--font-body);font-size:7px;color:var(--muted2);font-variant-numeric:tabular-nums}
+
+.rules{margin-top:38px;display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+.rules-card{padding:17px;border-radius:18px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.09)}
+.rules-card h2{font-family:var(--font-display);font-size:27px;font-weight:600;letter-spacing:-.4px;margin:7px 0 0}
+.rules-card p{font-size:10.5px;line-height:1.6;color:var(--muted);margin:8px 0 0}
+.rule-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.rule{display:flex;gap:8px;font-size:9.5px;line-height:1.5;color:var(--muted)}
+.rule .n{font-family:var(--font-display);color:var(--lime);font-size:13px;min-width:15px}
+.rule b{color:var(--text);font-weight:600}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px;padding-top:13px;border-top:1px solid rgba(255,255,255,.10);font-size:8.5px;color:#71847A}
+.foot b{color:var(--text);font-weight:600}
+
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}}
+@media (max-width:780px){.board{padding:28px 16px 40px}.head{flex-direction:column;align-items:flex-start}h1{font-size:48px}.grid{grid-template-columns:1fr}.phone{width:280px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body style="margin:0;background:#080D0B">
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-6"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+</svg>
+
+<div class="tc-root">
+<main class="board">
+  <header class="head">
+    <div>
+      <div class="eyebrow">Track Tạ · Color direction</div>
+      <h1>Đổi màu <span>chủ đạo.</span></h1>
+      <p class="lede">Giữ nguyên nền ink và cấu trúc component; chỉ đổi <b>primary</b>, <b>secondary</b> và <b>danger</b>. Cả ba hướng đều dùng chữ ink trên nền primary để đảm bảo tương phản.</p>
+    </div>
+    <div class="meta">
+      <span class="pill current"><span class="sw" style="background:#0E1513"></span>Hiện tại · Lime #D4F58A</span>
+      <span class="pill">Dark only</span>
+      <span class="pill">3 directions</span>
+    </div>
+  </header>
+
+  <section class="grid" aria-label="Ba hướng màu cho Track Tạ">
+
+    <!-- ORANGE -->
+    <article class="option orange">
+      <div class="opt-head">
+        <span class="num">01</span>
+        <div><h2>Performance Orange</h2><p>Năng lượng, nổi bật, nhìn thấy nhanh trong phòng gym.</p></div>
+        <span class="badge alt">Bold</span>
+      </div>
+      <div class="phone">
+        <div class="ph-screen">
+          <div class="ph-status"><span>9:41</span><span class="ph-dots"><i></i><i></i><i></i></span></div>
+          <div class="ph-bar"><div class="ph-logo"><svg class="ico"><use href="#i-dumbbell"/></svg></div><span class="ph-wm">track tạ</span><span class="ph-timer"><svg class="ico"><use href="#i-clock"/></svg>01:30</span></div>
+          <div class="ph-body">
+            <div class="ph-week"><span><b>TUẦN 03</b><span>20–26/10</span></span><span>Pull</span></div>
+            <div class="ph-days">
+              <div class="ph-day">T2<b>20</b></div><div class="ph-day">T3<b>21</b></div><div class="ph-day">T4<b>22</b></div><div class="ph-day">T5<b>23</b></div><div class="ph-day active">T6<b>24</b></div><div class="ph-day">T7<b>25</b></div>
+            </div>
+            <div class="ph-card"><div class="k">HÔM NAY · PULL</div><h3>Lưng, xô &amp; tay trước</h3><div class="meta"><span>6 bài · 12/18 hiệp</span><span>67%</span></div><div class="ph-progress"><i></i></div></div>
+            <div class="ph-sec"><span>Bài tập hôm nay</span><span>12/18</span></div>
+            <div class="ph-ex">
+              <div class="ph-exhead"><span class="n">01</span><b>Kéo xô hẹp tay</b><span class="tag">Đang tập</span></div>
+              <div class="ph-meta"><span>Tuần trước <b>40×8</b></span><span>Mục tiêu <b>10–12</b></span></div>
+              <div class="ph-set"><span>01</span><span>40×8</span><b>40×8</b><span class="ok">✓</span></div>
+              <div class="ph-set"><span>02</span><span>40×8</span><b>37.5×10</b><span class="ok">✓</span></div>
+              <div class="ph-set active"><span>03</span><span>40×8</span><b>35×10</b><span class="ghi">GHI</span></div>
+            </div>
+            <div class="ph-cta"><svg class="ico"><use href="#i-check"/></svg>Lưu hiệp</div>
+          </div>
+          <div class="ph-nav"><div class="active"><svg class="ico"><use href="#i-grid"/></svg>Lịch</div><div><svg class="ico"><use href="#i-chart"/></svg>Tiến độ</div><div><svg class="ico"><use href="#i-sliders"/></svg>Dữ liệu</div></div>
+        </div>
+      </div>
+      <div class="palette">
+        <div style="background:#FF6B35"></div><div style="background:#2DD4BF"></div><div style="background:#FF5D6C"></div><div style="background:#17211E"></div>
+      </div>
+      <div class="palette-labels"><div><b>Primary</b>#FF6B35</div><div><b>Secondary</b>#2DD4BF</div><div><b>Danger</b>#FF5D6C</div><div><b>Surface</b>#17211E</div></div>
+      <div class="notes"><span class="note-tag">Hợp khi</span><span>Bạn muốn cảm giác “năng lượng / thi đấu”, CTA và trạng thái active nổi bật tức thì.</span><span><b>Lưu ý:</b> dễ giống màu cảnh báo nếu dùng nhiều; phải tách danger rõ và chỉ dùng primary cho hành động.</span></div>
+    </article>
+
+    <!-- CYAN -->
+    <article class="option cyan">
+      <div class="opt-head">
+        <span class="num">02</span>
+        <div><h2>Volt Cyan</h2><p>Hiện đại, sạch, độ tương phản rất cao trên nền tối.</p></div>
+        <span class="badge alt">Fresh</span>
+      </div>
+      <div class="phone">
+        <div class="ph-screen">
+          <div class="ph-status"><span>9:41</span><span class="ph-dots"><i></i><i></i><i></i></span></div>
+          <div class="ph-bar"><div class="ph-logo"><svg class="ico"><use href="#i-dumbbell"/></svg></div><span class="ph-wm">track tạ</span><span class="ph-timer"><svg class="ico"><use href="#i-clock"/></svg>01:30</span></div>
+          <div class="ph-body">
+            <div class="ph-week"><span><b>TUẦN 03</b><span>20–26/10</span></span><span>Pull</span></div>
+            <div class="ph-days">
+              <div class="ph-day">T2<b>20</b></div><div class="ph-day">T3<b>21</b></div><div class="ph-day">T4<b>22</b></div><div class="ph-day">T5<b>23</b></div><div class="ph-day active">T6<b>24</b></div><div class="ph-day">T7<b>25</b></div>
+            </div>
+            <div class="ph-card"><div class="k">HÔM NAY · PULL</div><h3>Lưng, xô &amp; tay trước</h3><div class="meta"><span>6 bài · 12/18 hiệp</span><span>67%</span></div><div class="ph-progress"><i></i></div></div>
+            <div class="ph-sec"><span>Bài tập hôm nay</span><span>12/18</span></div>
+            <div class="ph-ex">
+              <div class="ph-exhead"><span class="n">01</span><b>Kéo xô hẹp tay</b><span class="tag">Đang tập</span></div>
+              <div class="ph-meta"><span>Tuần trước <b>40×8</b></span><span>Mục tiêu <b>10–12</b></span></div>
+              <div class="ph-set"><span>01</span><span>40×8</span><b>40×8</b><span class="ok">✓</span></div>
+              <div class="ph-set"><span>02</span><span>40×8</span><b>37.5×10</b><span class="ok">✓</span></div>
+              <div class="ph-set active"><span>03</span><span>40×8</span><b>35×10</b><span class="ghi">GHI</span></div>
+            </div>
+            <div class="ph-cta"><svg class="ico"><use href="#i-check"/></svg>Lưu hiệp</div>
+          </div>
+          <div class="ph-nav"><div class="active"><svg class="ico"><use href="#i-grid"/></svg>Lịch</div><div><svg class="ico"><use href="#i-chart"/></svg>Tiến độ</div><div><svg class="ico"><use href="#i-sliders"/></svg>Dữ liệu</div></div>
+        </div>
+      </div>
+      <div class="palette">
+        <div style="background:#5EEAD4"></div><div style="background:#F5C451"></div><div style="background:#FF6B6B"></div><div style="background:#17211E"></div>
+      </div>
+      <div class="palette-labels"><div><b>Primary</b>#5EEAD4</div><div><b>Secondary</b>#F5C451</div><div><b>Danger</b>#FF6B6B</div><div><b>Surface</b>#17211E</div></div>
+      <div class="notes"><span class="note-tag">Hợp khi</span><span>Bạn muốn cảm giác “công nghệ / dữ liệu / sạch”, phù hợp app theo dõi và biểu đồ.</span><span><b>Lưu ý:</b> cyan hơi lạnh, ít “nặng” hơn; không thêm teal thứ hai để tránh lẫn sắc.</span></div>
+    </article>
+
+    <!-- COBALT -->
+    <article class="option cobalt recommended">
+      <div class="opt-head">
+        <span class="num">03</span>
+        <div><h2>Cobalt + Lime</h2><p>Điềm tĩnh, premium; giữ lime làm nhận diện phụ.</p></div>
+        <span class="badge rec">Đề xuất</span>
+      </div>
+      <div class="phone">
+        <div class="ph-screen">
+          <div class="ph-status"><span>9:41</span><span class="ph-dots"><i></i><i></i><i></i></span></div>
+          <div class="ph-bar"><div class="ph-logo"><svg class="ico"><use href="#i-dumbbell"/></svg></div><span class="ph-wm">track tạ</span><span class="ph-timer"><svg class="ico"><use href="#i-clock"/></svg>01:30</span></div>
+          <div class="ph-body">
+            <div class="ph-week"><span><b>TUẦN 03</b><span>20–26/10</span></span><span>Pull</span></div>
+            <div class="ph-days">
+              <div class="ph-day">T2<b>20</b></div><div class="ph-day">T3<b>21</b></div><div class="ph-day">T4<b>22</b></div><div class="ph-day">T5<b>23</b></div><div class="ph-day active">T6<b>24</b></div><div class="ph-day">T7<b>25</b></div>
+            </div>
+            <div class="ph-card"><div class="k">HÔM NAY · PULL</div><h3>Lưng, xô &amp; tay trước</h3><div class="meta"><span>6 bài · 12/18 hiệp</span><span>67%</span></div><div class="ph-progress"><i></i></div></div>
+            <div class="ph-sec"><span>Bài tập hôm nay</span><span>12/18</span></div>
+            <div class="ph-ex">
+              <div class="ph-exhead"><span class="n">01</span><b>Kéo xô hẹp tay</b><span class="tag">Đang tập</span></div>
+              <div class="ph-meta"><span>Tuần trước <b>40×8</b></span><span>Mục tiêu <b>10–12</b></span></div>
+              <div class="ph-set"><span>01</span><span>40×8</span><b>40×8</b><span class="ok">✓</span></div>
+              <div class="ph-set"><span>02</span><span>40×8</span><b>37.5×10</b><span class="ok">✓</span></div>
+              <div class="ph-set active"><span>03</span><span>40×8</span><b>35×10</b><span class="ghi">GHI</span></div>
+            </div>
+            <div class="ph-cta"><svg class="ico"><use href="#i-check"/></svg>Lưu hiệp</div>
+          </div>
+          <div class="ph-nav"><div class="active"><svg class="ico"><use href="#i-grid"/></svg>Lịch</div><div><svg class="ico"><use href="#i-chart"/></svg>Tiến độ</div><div><svg class="ico"><use href="#i-sliders"/></svg>Dữ liệu</div></div>
+        </div>
+      </div>
+      <div class="palette">
+        <div style="background:#6B9BFF"></div><div style="background:#D4F58A"></div><div style="background:#FF6B6B"></div><div style="background:#17211E"></div>
+      </div>
+      <div class="palette-labels"><div><b>Primary</b>#6B9BFF</div><div><b>Secondary</b>#D4F58A</div><div><b>Danger</b>#FF6B6B</div><div><b>Surface</b>#17211E</div></div>
+      <div class="notes"><span class="note-tag">Hợp khi</span><span>Bạn muốn đổi rõ màu chủ đạo nhưng vẫn giữ lime như “dấu vân tay” cho PR, thành tích và biểu đồ.</span><span><b>Lưu ý:</b> xanh dương phổ biến; cần giữ lime làm điểm nhấn để không thành app generic.</span></div>
+    </article>
+
+  </section>
+
+  <section class="rules">
+    <div class="rules-card">
+      <div class="eyebrow">Khuyến nghị</div>
+      <h2>Đổi primary, giữ ngữ nghĩa.</h2>
+      <p><b>Cobalt + Lime</b> là lựa chọn an toàn nhất: primary mới làm mới cảm giác, lime còn lại đảm nhiệm PR/record và các điểm “thành tích”. Nếu bạn muốn thay đổi mạnh tay hơn, <b>Performance Orange</b> cho cảm giác gym rõ nhất.</p>
+      <div class="rule-list">
+        <div class="rule"><span class="n">01</span><span><b>Primary chỉ cho hành động:</b> CTA, ngày đang chọn, nav active, set active. Không dùng cho lỗi hay nền lớn.</span></div>
+        <div class="rule"><span class="n">02</span><span><b>Secondary cho dữ liệu:</b> PR, biểu đồ, nhóm cơ phụ. Một primary + một secondary là đủ.</span></div>
+        <div class="rule"><span class="n">03</span><span><b>Danger tách hẳn:</b> dùng đỏ hồng/coral cho xóa; không để gần hue với primary.</span></div>
+      </div>
+    </div>
+    <div class="rules-card">
+      <div class="eyebrow">Khi áp vào app</div>
+      <h2>Token thay vì hex rải rác.</h2>
+      <p>Chỉ cần đổi 3 biến trong theme: <b>primary</b>, <b>onPrimary</b>, <b>primarySoft</b>; sau đó thay các chỗ đang hard-code lime bằng token. Giữ nguyên surface, border và typography hiện tại.</p>
+      <div class="rule-list">
+        <div class="rule"><span class="n">A</span><span><b>Contrast:</b> chữ ink trên primary; kiểm tra 4.5:1 cho body, 3:1 cho icon/large.</span></div>
+        <div class="rule"><span class="n">B</span><span><b>Không dùng màu làm tín hiệu duy nhất:</b> trạng thái active luôn kèm icon/nhãn/vị trí.</span></div>
+        <div class="rule"><span class="n">C</span><span><b>Muscle map:</b> primary cho cơ chính, secondary cho cơ phụ; đừng thêm màu thứ ba.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div><b>Track Tạ · Color direction</b> · concept so sánh · dữ liệu minh hoạ</div>
+    <div>Chọn hướng → mình cập nhật theme + build APK</div>
+  </footer>
+</main>
+</div>
+
+</body>
+</html>

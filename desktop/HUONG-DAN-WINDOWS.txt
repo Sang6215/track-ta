@@ -1,0 +1,104 @@
+TRACK TẠ WINDOWS 1.2.0 + ANDROID 1.5.0
+
+CHẠY TRÊN WINDOWS
+Giải nén toàn bộ TrackTa-Windows-v1.2.0.zip vào một thư mục trên máy.
+Mở TrackTa-Windows.exe. Giữ thư mục _internal cùng với file exe.
+Không cần cài Python. Bản này dành cho Windows 10/11 64 bit.
+
+CẬP NHẬT TỪ ĐIỆN THOẠI 1.1.0
+Trong app 1.1.0: Dữ liệu > Lưu bản sao lưu JSON để giữ riêng nhật ký.
+Ảnh tháng > Lưu ảnh ra máy để giữ riêng những ảnh cần thiết.
+Cài đè Track-Ta-v1.5.0.apk đi kèm lên điện thoại, giữ nguyên app đang có.
+APK dùng cùng package và cùng khóa ký; dữ liệu cũ được đọc và nâng định dạng.
+Bạn cũng có thể cài đè bằng nút Cài bản Android hỗ trợ USB trên Windows,
+sau khi bật Gỡ lỗi USB và cho phép máy tính.
+Bản 1.1.0 chưa có chức năng nhận chỉnh sửa trực tiếp qua USB.
+
+KẾT NỐI QUA CÁP USB
+1. Dùng cáp có truyền dữ liệu; mở khóa điện thoại.
+2. Trong cài đặt Android, bật Tùy chọn nhà phát triển và Gỡ lỗi USB.
+   Thường chạm Số bản dựng 7 lần để bật Tùy chọn nhà phát triển;
+   tên mục có thể khác theo hãng. Cho phép máy tính khi điện thoại hỏi.
+3. Trên Android 1.5.0: Dữ liệu > Kết nối Windows qua USB > Bắt đầu kết nối.
+4. Trên Windows: Kết nối USB > Tìm thiết bị, chọn điện thoại, nhập mã 6 số.
+5. Bấm Ghép nối & tải dữ liệu. Giữ màn hình kết nối trên điện thoại mở.
+Mã dùng một lần; phiên kéo dài 15 phút. Có thể ngắt và tạo mã mới.
+Không dùng máy chủ hay tài khoản; đường truyền dữ liệu đi qua cáp USB.
+
+LỊCH VÀ BÀI TẬP
+Sửa tên, mô tả, thứ trong tuần, số hiệp, mục tiêu reps/giây và nhóm cơ.
+Thêm bài, thêm buổi, nhân bản buổi, đổi thứ tự bài.
+Nhân bản buổi tạo bài mới với mã mới và không chép nhật ký đã tập.
+Lưu trữ bài để bỏ khỏi buổi đang tập và giữ lịch sử. Có thể mở lại bài.
+Mỗi buổi cần ít nhất một bài đang tập. Bài đã có nhật ký được giữ cách đo;
+nếu cần chuyển loại tạ / trợ lực / thời gian, tạo bài mới.
+Không giảm số hiệp dưới các hiệp đã có dữ liệu.
+
+NHẬT KÝ VÀ TIẾN ĐỘ
+Chọn tuần, buổi, tìm bài và bấm đúp một hiệp để sửa tạ/reps/ghi chú.
+Thêm tuần trống. App lưu bản làm việc tự động trên Windows.
+Xem biểu đồ bài tập và so sánh mức tốt nhất giữa hai tuần.
+Tuần chưa ghi để trống. Trợ lực dùng kg thấp nhất, Plank dùng giây.
+Xuất CSV để mở bằng Excel; giữ chuỗi tạ nguyên bản như 2x12.5kg.
+
+ĐỒNG BỘ
+Bấm Xem trước & đồng bộ. App tải lại dữ liệu mới nhất trên điện thoại.
+Những chỉnh sửa ở các hiệp khác nhau được ghép tự động.
+Nếu cùng một hiệp hoặc lịch tập bị sửa ở cả hai bên, chọn bản muốn giữ.
+Xem danh sách thay đổi, rồi bấm Sao lưu & đồng bộ.
+Bản Windows và bản điện thoại trước khi gửi đều được sao lưu.
+Nếu điện thoại thay đổi trong lúc gửi, app từ chối ghi và yêu cầu so sánh lại.
+Ngắt cáp hoặc đóng app không tự gửi những sửa đổi đang làm trên Windows.
+
+ẢNH THÁNG
+Tải & sao lưu toàn bộ ảnh: giữ ảnh gốc trên Windows, một thư mục riêng
+cho mỗi điện thoại. Chọn tháng A và B để xem cạnh nhau.
+Thêm / thay ảnh điện thoại: chọn JPG/PNG không quá 15 MB, chọn tháng YYYY-MM.
+Ảnh cũ được giữ trước khi thay, cả trên Windows và vùng dữ liệu Android.
+Xóa ảnh điện thoại: chọn tháng A; bản sao Windows vẫn được giữ.
+Mở thư mục ảnh để lấy ảnh gốc hoặc phiên bản cũ. Có thể chọn một ảnh cũ
+từ thư mục này và dùng Thêm / thay ảnh điện thoại để gửi lại.
+Ảnh và nhật ký được truyền riêng; xuất JSON không chứa ảnh.
+
+NƠI LƯU TRÊN MÁY TÍNH
+%LOCALAPPDATA%\TrackTaWindows\devices\<mã điện thoại>\
+workspace.json: bản làm việc và lần đồng bộ gần nhất.
+backups\: JSON trước khi đồng bộ/khôi phục.
+photos\: ảnh theo tháng, tên có mã nội dung để giữ các phiên bản cũ.
+Sao chép thư mục TrackTaWindows để giữ toàn bộ dữ liệu trên Windows.
+Không lưu dữ liệu người dùng trong thư mục giải nén ứng dụng.
+
+SAO LƯU VÀ KHÔI PHỤC
+Mở JSON từ bản Android 1.1.0 để xem/chỉnh ngoại tuyến.
+Khôi phục JSON chỉ đổi bản làm việc Windows; gửi sang điện thoại bằng đồng bộ.
+JSON mới chứa cả lịch tập và dùng định dạng version 2; cần Android 1.4.0
+để khôi phục lịch tập đã chỉnh. Điện thoại 1.1.0 không đọc được JSON version 2.
+
+NẾU CHƯA THẤY ĐIỆN THOẠI
+Thử cáp/cổng USB khác và mở khóa màn hình. Kiểm tra Gỡ lỗi USB.
+Nếu hiện chờ cho phép, chấp nhận hộp thoại trên điện thoại rồi Tìm thiết bị lại.
+Một số máy cần driver USB chính thức của hãng trên Windows.
+Nếu mã hết hạn hoặc app điện thoại bị đóng, tạo phiên mới rồi ghép nối lại.
+Không gỡ app để sửa lỗi kết nối; nhật ký và ảnh nằm trong dữ liệu app.
+
+THAM KHẢO THIẾT LẬP USB
+Android Developers: https://developer.android.com/tools/adb#Enabling
+
+TUẦN DEBLOAT (ANDROID 1.5.0 + WINDOWS 1.2.0)
+Trong Nhật ký, nút Tuần debloat chỉ xuất hiện sau khi tuần 1–4 đều có hiệp đã tập.
+Bảng xem trước hiển thị các mức tốt nhất, dự báo thô, dự báo đã kẹp, đề xuất,
+số tuần có dữ liệu (cột Dữ liệu), số hiệp trống sẽ điền và số hiệp đã có sẽ giữ.
+Mỗi bài chỉ cần 1 tuần có hiệp đã tập: hồi quy tuyến tính chạy trên các tuần có
+dữ liệu (đúng 1 tuần thì dự báo bằng chính giá trị đó), kẹp vào 0–mức tốt nhất
+của các tuần đã ghi (trợ lực: thấp nhất). Tuần thiếu không tính là 0.
+Tạ/Plank nhân 60%; tạ trợ lực chia 60% để tăng mức hỗ trợ.
+Tạ làm tròn 2,5 kg (mỗi quả nếu các tuần ghi đều dùng 2x); trợ lực làm tròn lên.
+Plank làm tròn 5 giây, tối thiểu 5 giây; bài BW chỉ điền reps mục tiêu thấp nhất.
+Bài chưa có hiệp nào ở tuần 1–4 bị bỏ qua và hiển thị lý do. Chỉ điền hiệp trống tuần 5.
+Ví dụ 40/42,5/45/47,5 kg: dự báo 50, kẹp 47,5, nhân 60% rồi làm tròn thành 27,5 kg.
+Gợi ý có màu teal và nhãn Gợi ý, chưa tính hoàn thành hay vào biểu đồ.
+Sau khi tập, mở và lưu hiệp để xác nhận. Áp dụng trên Windows chỉ lưu cục bộ;
+bấm Xem trước & đồng bộ để gửi. Trước khi áp dụng có bản sao lưu Windows.
+Nhãn DEBLOAT và nguồn hiệp được giữ trong JSON version 2 và USB.
+File JSON cũ không có nhãn vẫn đọc được. Windows cũ có thể bỏ nhãn;
+hãy dùng Windows 1.2.0 và Android 1.5.0 để giữ đúng trạng thái gợi ý.

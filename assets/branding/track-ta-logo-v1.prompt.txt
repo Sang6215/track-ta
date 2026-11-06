@@ -1,0 +1,8 @@
+Track Tạ logo v1
+Created: 2026-10-29
+Mode: built-in image_gen image generation; no API/CLI fallback.
+Asset: track-ta-logo-v1.png. Original generated image copied without modification.
+This is a proposed logo asset; the installed app icon has not been replaced.
+
+Final generation prompt:
+Use case: logo-brand. Create ONE finished square app icon for Track Tạ, a Vietnamese weightlifting log app that tracks weekly strength progress. This is a new original logo, not a mockup or concept board. Full-bleed solid deep forest charcoal background #101918. A single bold, refined acid-lime #D4F58A emblem centered on the square. Design a custom geometric capital T monogram whose top crossbar is unmistakably a barbell, with compact weight plates at both ends; a strong short central stem connects naturally beneath it. Incorporate a subtle upward step in the negative space of the stem to suggest weekly progress while keeping the silhouette extremely simple. Flat vector-like precision, deliberate optical balance, clean consistent geometric edges, confident athletic character, premium understated fitness identity. The mark occupies approximately 62% of the square with generous clear padding, and reads strongly at 48px. Two colors only. No words or captions, no additional letters, no numbers, no slogans, no decorative border, no surrounding rounded-square container, no gradients, no glow, no shadows, no 3D, no metallic textures, no photographic objects, no watermark. Output one crisp high-resolution square icon.

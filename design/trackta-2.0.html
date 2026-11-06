@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Tạ 2.0 — Concept thiết kế</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#070C0A;
+  --screen:#0E1513;
+  --surface:#17211E;
+  --raised:#1F2D28;
+  --border:#2B3B34;
+  --border-soft:#22312B;
+  --lime:#D4F58A;
+  --lime-dim:#B7D96B;
+  --lime-soft:rgba(212,245,138,.12);
+  --teal:#81CDB8;
+  --teal-soft:rgba(129,205,184,.10);
+  --salmon:#FFACA0;
+  --text:#F3F6EF;
+  --muted:#A7B8AF;
+  --muted2:#7E9187;
+  --ink:#0E1513;
+  --font-display:'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body:'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.tt-root, .tt-root *{box-sizing:border-box}
+.tt-root{
+  min-height:100vh;
+  margin:0;
+  color:var(--text);
+  font-family:var(--font-body);
+  background-color:#070C0A;
+  background-image:
+    radial-gradient(900px 520px at 7% -6%, rgba(212,245,138,.11), transparent 60%),
+    radial-gradient(760px 520px at 96% 2%, rgba(129,205,184,.08), transparent 55%),
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size:auto, auto, 32px 32px, 32px 32px;
+  -webkit-font-smoothing:antialiased;
+}
+.tt-root button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.tt-root svg{display:block}
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico-sm{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.board{max-width:1240px;margin:0 auto;padding:44px 32px 48px}
+.board-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:34px}
+.eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);font-weight:600}
+h1{font-family:var(--font-display);font-size:76px;line-height:.86;font-weight:600;letter-spacing:-1.5px;margin:11px 0 0}
+h1 .v2{color:var(--lime)}
+.lede{max-width:620px;margin:15px 0 0;color:#C1CEC7;font-size:14px;line-height:1.7}
+.lede b{color:var(--text);font-weight:600}
+.head-meta{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:350px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);font-size:10px;font-weight:500;color:#C5D2CB;backdrop-filter:blur(6px)}
+.pill.accent{background:var(--lime);color:var(--ink);border-color:var(--lime);font-weight:600}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--lime)}
+
+.phones{display:grid;grid-template-columns:repeat(3,360px);gap:28px;justify-content:center;align-items:start}
+.device-wrap{display:flex;flex-direction:column;gap:11px;min-width:0}
+.screen-label{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7B8C82;font-weight:600;padding-left:5px}
+.screen-label .num{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(212,245,138,.10);color:var(--lime);font-size:9px;letter-spacing:0;font-family:var(--font-body)}
+.device{width:360px;height:778px;padding:9px;border-radius:49px;background:linear-gradient(155deg,#1B2923 0%,#0B120F 45%,#030605 100%);border:1px solid #2B3E35;box-shadow:0 44px 80px -34px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.07);position:relative;transition:transform .35s ease, box-shadow .35s ease}
+.device:hover{transform:translateY(-4px);box-shadow:0 56px 90px -34px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.09)}
+.screen{width:342px;height:760px;border-radius:41px;background:var(--screen);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.island{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:16px;background:#050907;z-index:8}
+.island::after{content:"";position:absolute;right:10px;top:7px;width:7px;height:7px;border-radius:50%;background:#18231E;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.statusbar{height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:5px 20px 0;font-size:9.5px;font-weight:600;color:var(--text);letter-spacing:.01em}
+.status-right{display:flex;align-items:center;gap:4px;color:var(--text)}
+.status-right .ico-sm{opacity:.92}
+
+/* ---------- shared app chrome ---------- */
+.appbar{height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:2px 16px 0}
+.logo-mark{width:30px;height:30px;border-radius:9px;background:var(--lime);color:var(--ink);display:grid;place-items:center;flex:none}
+.logo-mark .ico{width:17px;height:17px;stroke-width:2.2}
+.wordmark{font-family:var(--font-display);font-size:21px;line-height:1;font-weight:600;letter-spacing:-.5px;color:var(--text);text-transform:lowercase}
+.rest-pill{margin-left:auto;display:flex;align-items:center;gap:5px;height:26px;padding:0 9px;border-radius:999px;background:var(--lime-soft);border:1px solid rgba(212,245,138,.28);color:var(--lime);font-size:8.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.rest-pill .ico{width:12px;height:12px}
+.rest-pill b{font-weight:600;font-size:9.5px}
+.screen-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px;padding:7px 16px 0;overflow:hidden}
+
+.weekbar{height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 2px;color:var(--muted)}
+.weekbar .chev{width:22px;height:22px;display:grid;place-items:center;color:var(--muted2)}
+.weekbar .center{text-align:center;display:flex;flex-direction:column;gap:1px}
+.week-kicker{font-size:8px;letter-spacing:1.5px;color:var(--lime);font-weight:600;text-transform:uppercase}
+.week-range{font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.daystrip{height:56px;flex:none;display:flex;gap:3px;justify-content:space-between}
+.day{width:40px;height:56px;border-radius:12px;background:var(--surface);border:1px solid var(--border-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;flex:none}
+.day .dow{font-size:7px;font-weight:500;color:var(--muted2);letter-spacing:.02em}
+.day .dnum{font-family:var(--font-display);font-size:15px;line-height:1;color:var(--text);font-variant-numeric:tabular-nums}
+.day .dlabel{font-size:5.6px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted2)}
+.day.rest{background:transparent;border-style:dashed;border-color:#2A3A33}
+.day.rest .dnum{color:var(--muted)}
+.day.rest .dlabel{display:none}
+.day .moon{color:var(--muted2);width:10px;height:10px;margin-top:2px}
+.day.active{background:var(--lime);border-color:var(--lime);box-shadow:0 6px 16px -10px rgba(212,245,138,.55)}
+.day.active .dow,.day.active .dlabel{color:rgba(14,21,19,.62)}
+.day.active .dnum{color:var(--ink);font-weight:600}
+
+.workout-card{flex:none;border-radius:18px;border:1px solid #2E4A3E;background:linear-gradient(140deg,#1D332A 0%,#14241E 68%,#111E19 100%);padding:9px 11px 8px;position:relative;overflow:hidden}
+.workout-card::after{content:"";position:absolute;right:-40px;bottom:-50px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(212,245,138,.13),transparent 66%)}
+.workout-top{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1}
+.eyebrow-lime{font-size:7.5px;font-weight:600;letter-spacing:1.3px;color:var(--lime);text-transform:uppercase}
+.status-chip{display:flex;align-items:center;gap:4px;font-size:7px;font-weight:600;color:var(--lime);padding:3px 6px;border-radius:99px;background:rgba(212,245,138,.10);border:1px solid rgba(212,245,138,.20)}
+.status-chip i{width:4px;height:4px;border-radius:50%;background:var(--lime);display:block;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.workout-main{display:flex;align-items:center;gap:8px;margin-top:3px;position:relative;z-index:1}
+.workout-main h2{font-family:var(--font-display);font-size:20px;line-height:1;font-weight:600;letter-spacing:-.3px;margin:0}
+.workout-main .meta{font-size:8px;color:var(--muted);margin-top:3px}
+.workout-main .meta b{color:var(--text);font-weight:600}
+.ring{width:38px;height:38px;border-radius:50%;margin-left:auto;background:conic-gradient(var(--lime) 0 67%,rgba(255,255,255,.11) 67% 100%);display:grid;place-items:center;flex:none}
+.ring>div{width:30px;height:30px;border-radius:50%;background:#17271F;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7px;font-weight:600;color:var(--lime);line-height:1;font-variant-numeric:tabular-nums}
+.ring>div span{font-size:5.5px;color:var(--muted2);font-weight:500;margin-top:2px}
+.progress{height:4px;border-radius:99px;background:rgba(255,255,255,.10);margin-top:7px;overflow:hidden;position:relative;z-index:1}
+.progress i{display:block;height:100%;border-radius:99px;background:var(--lime)}
+.workout-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;font-size:7.5px;color:var(--muted2);position:relative;z-index:1}
+.workout-foot .link{display:flex;align-items:center;gap:2px;color:var(--lime);font-size:8px;font-weight:600}
+.workout-foot .link .ico-sm{width:11px;height:11px}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;padding:0 2px;flex:none;margin-top:1px}
+.section-title h3{font-size:11.5px;font-weight:600;letter-spacing:-.05px;margin:0}
+.section-title span{font-size:8px;color:var(--muted2);font-variant-numeric:tabular-nums}
+
+.exercise-card{flex:none;border-radius:18px;border:1px solid var(--border);background:var(--surface);padding:9px 10px 7px}
+.ex-head{display:flex;align-items:flex-start;gap:7px}
+.ex-index{font-family:var(--font-display);font-size:12px;line-height:1.2;color:var(--lime);width:15px;flex:none;font-variant-numeric:tabular-nums}
+.ex-title{min-width:0;flex:1}
+.ex-title h3{font-family:var(--font-display);font-size:19px;line-height:1.05;font-weight:600;letter-spacing:-.2px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ex-title span{display:block;font-size:8px;color:var(--muted2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-flex;align-items:center;gap:3px;padding:3px 6px;border-radius:6px;font-size:6.8px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;flex:none}
+.tag.lime{background:var(--lime);color:var(--ink)}
+.tag.teal{background:var(--teal-soft);color:var(--teal);border:1px solid rgba(129,205,184,.25)}
+.ex-meta{display:flex;gap:10px;align-items:center;font-size:7.8px;color:var(--muted2);margin:4px 0 5px 22px;flex-wrap:wrap}
+.ex-meta b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.set-table{display:flex;flex-direction:column;gap:3px}
+.set-head,.set-row{display:grid;grid-template-columns:24px 1fr 1fr 27px;gap:4px;align-items:center}
+.set-head{padding:2px 6px 3px;font-size:6.3px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);font-weight:600;border-bottom:1px solid var(--border-soft)}
+.set-row{padding:6px;border-radius:9px;font-size:9px;color:var(--muted);font-variant-numeric:tabular-nums;background:rgba(255,255,255,.018)}
+.set-row>span:nth-child(1){font-family:var(--font-display);font-size:11px;color:var(--muted2)}
+.set-row>span:nth-child(2){color:var(--muted2)}
+.set-row>span:nth-child(3){color:var(--text);font-weight:600}
+.set-row.done>span:nth-child(3){color:var(--text)}
+.set-row .check{width:15px;height:15px;border-radius:50%;background:rgba(212,245,138,.14);color:var(--lime);display:grid;place-items:center;justify-self:end}
+.set-row .check .ico-sm{width:9px;height:9px;stroke-width:2.4}
+.set-row.active{background:var(--raised);border:1px solid rgba(212,245,138,.42);padding:5px;color:var(--text)}
+.set-row.active>span:nth-child(3){color:var(--lime)}
+.set-row .ghi{justify-self:end;background:var(--lime);color:var(--ink);font-size:7px;font-weight:700;padding:4px 6px;border-radius:6px}
+.next-ex{height:33px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;border-radius:11px;background:rgba(255,255,255,.018);border:1px solid var(--border-soft)}
+.next-ex .ex-index{font-size:10px;width:13px}
+.next-ex .nx{min-width:0;flex:1}
+.next-ex .nx b{display:block;font-size:9.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.next-ex .nx span{display:block;font-size:7px;color:var(--muted2);margin-top:1px}
+.next-ex .chev{color:var(--muted2);font-size:11px;line-height:1}
+.mini-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;flex:none;margin-top:2px}
+.mini-summary div{background:rgba(255,255,255,.02);border:1px solid var(--border-soft);border-radius:9px;padding:4px 5px;text-align:center}
+.mini-summary b{font-family:var(--font-display);font-size:13px;color:var(--text);display:block;line-height:1;font-variant-numeric:tabular-nums}
+.mini-summary span{font-size:5.8px;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:2px}
+.hint-strip{margin-top:auto;display:flex;align-items:center;gap:5px;border-top:1px solid var(--border-soft);padding:6px 2px 7px;font-size:7px;color:var(--muted2)}
+.hint-strip b{color:var(--lime);font-weight:600}
+.queue-card{margin:7px 16px 0;border-radius:12px;background:var(--surface);border:1px solid var(--border);padding:6px 9px;flex:none}
+.queue-head{display:flex;align-items:center;justify-content:space-between;font-size:9px;font-weight:600;padding:2px 0 4px;color:var(--text)}
+.queue-head span{font-size:6.5px;color:var(--muted2);font-weight:500}
+.queue-row{display:flex;align-items:center;gap:5px;border-top:1px solid var(--border-soft);padding:5px 0;font-size:7.5px;color:var(--muted)}
+.queue-row .qidx{font-family:var(--font-display);font-size:9px;color:var(--lime);width:12px;font-variant-numeric:tabular-nums}
+.queue-row b{color:var(--text);font-weight:600}
+.queue-row .qchev{margin-left:auto;color:var(--muted2);font-size:10px;line-height:1}
+.focus-note{margin:7px 16px 0;padding:7px 9px;border-left:2px solid var(--lime);background:rgba(255,255,255,.022);font-size:7.5px;color:var(--muted2);border-radius:0 8px 8px 0;flex:none}
+.focus-note b{color:var(--text);font-weight:500}
+.coach-cue{display:flex;gap:6px;margin:7px 16px 0;padding:7px 9px;border:1px solid var(--border-soft);background:rgba(255,255,255,.018);border-radius:10px;font-size:7.5px;color:var(--muted);line-height:1.45;flex:none}
+.coach-cue b{color:var(--lime);font-weight:600;white-space:nowrap}
+.session-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:7px 16px 0;flex:none}
+.session-stats div{background:var(--surface);border:1px solid var(--border-soft);border-radius:10px;padding:6px 8px;text-align:center}
+.session-stats b{font-family:var(--font-display);font-size:15px;line-height:1;color:var(--text);display:block;font-variant-numeric:tabular-nums}
+.session-stats span{display:block;font-size:6px;color:var(--muted2);letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
+.end-link{margin-top:auto;padding:8px 16px 0;border-top:1px solid var(--border-soft);text-align:center;font-size:7.5px;color:var(--muted2);flex:none}
+.end-link b{color:var(--salmon);font-weight:500}
+
+.bottom-nav{margin-top:auto;height:58px;flex:none;display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--border-soft);background:rgba(10,16,13,.92);padding:0 7px}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:86px;height:50px;color:var(--muted2);font-size:7.5px;font-weight:500;position:relative}
+.nav-item .ico{width:18px;height:18px}
+.nav-item.active{color:var(--lime)}
+.nav-item.active::before{content:"";position:absolute;top:0;width:22px;height:2px;border-radius:99px;background:var(--lime)}
+.nav-item.active .ico{stroke-width:2}
+
+/* ---------- focus screen ---------- */
+.focus-top{height:36px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:1px 16px 0}
+.icon-btn{width:32px;height:32px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;color:var(--text)}
+.icon-btn .ico{width:15px;height:15px}
+.focus-top .kicker{font-size:7.5px;letter-spacing:1.4px;color:var(--muted2);font-weight:600;text-transform:uppercase}
+.focus-progress{padding:3px 16px 0;flex:none}
+.focus-progress .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.focus-progress .time{font-family:var(--font-display);font-size:16px;line-height:1;color:var(--text);font-variant-numeric:tabular-nums}
+.focus-progress .time span{font-family:var(--font-body);font-size:7.5px;color:var(--muted2);margin-left:2px}
+.focus-progress .sets{font-size:8px;color:var(--muted);font-variant-numeric:tabular-nums}
+.focus-progress .sets b{color:var(--lime);font-weight:600}
+.focus-progress .bar{height:4px;border-radius:99px;background:rgba(255,255,255,.10);overflow:hidden;margin-top:5px}
+.focus-progress .bar i{display:block;height:100%;width:67%;background:var(--lime);border-radius:99px}
+.focus-hero{padding:9px 16px 0;flex:none}
+.focus-hero .eyebrow-lime{font-size:7.5px}
+.focus-hero h2{font-family:var(--font-display);font-size:30px;line-height:.98;font-weight:600;letter-spacing:-.4px;margin:3px 0 0}
+.focus-hero .en{font-size:9px;color:var(--muted2);margin-top:2px}
+.focus-hero .chips{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap}
+.focus-hero .body-link{display:flex;align-items:center;gap:3px;font-size:7.5px;color:var(--muted);margin-left:auto;white-space:nowrap}
+.focus-hero .body-link .ico-sm{width:12px;height:12px;color:var(--teal)}
+.focus-hero .targets{display:flex;gap:12px;margin-top:6px;font-size:8px;color:var(--muted2)}
+.focus-hero .targets b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.set-strip{display:flex;gap:5px;padding:7px 16px 0;flex:none}
+.set-chip{flex:1;height:34px;border-radius:10px;border:1px solid var(--border-soft);background:var(--surface);display:flex;align-items:center;justify-content:center;gap:4px;font-size:7.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.set-chip span{color:var(--muted2);font-family:var(--font-display);font-size:10px}
+.set-chip b{font-weight:600;color:var(--text);font-size:9px}
+.set-chip .ico-sm{width:10px;height:10px;color:var(--lime)}
+.set-chip.active{background:var(--lime-soft);border-color:rgba(212,245,138,.45);color:var(--lime)}
+.set-chip.active b{color:var(--lime)}
+.rest-banner{display:flex;align-items:center;gap:7px;margin:7px 16px 0;padding:7px 8px;border-radius:12px;background:var(--teal-soft);border:1px solid rgba(129,205,184,.30);flex:none}
+.rest-ring{width:29px;height:29px;border-radius:50%;background:conic-gradient(var(--teal) 0 72%,rgba(255,255,255,.10) 72% 100%);display:grid;place-items:center;flex:none}
+.rest-ring div{width:23px;height:23px;border-radius:50%;background:#13211C;display:grid;place-items:center;font-size:6.5px;font-weight:600;color:var(--teal);font-variant-numeric:tabular-nums}
+.rest-banner .rt{min-width:0;flex:1}
+.rest-banner .rt b{display:block;font-size:8.5px;font-weight:600;color:var(--text)}
+.rest-banner .rt span{display:block;font-size:7px;color:var(--muted2);margin-top:1px;font-variant-numeric:tabular-nums}
+.rest-banner .plus{font-size:7.5px;font-weight:600;color:var(--teal);border:1px solid rgba(129,205,184,.30);padding:4px 6px;border-radius:6px;white-space:nowrap}
+.rest-banner .skip{font-size:7px;color:var(--muted2);white-space:nowrap}
+.input-card{display:flex;gap:10px;margin:7px 16px 0;padding:9px 11px;background:var(--surface);border:1px solid var(--border);border-radius:16px;flex:none}
+.field{flex:1;min-width:0}
+.field .label{font-size:6.8px;letter-spacing:1px;color:var(--muted2);font-weight:600;text-transform:uppercase}
+.stepper{display:flex;align-items:center;justify-content:space-between;gap:2px;margin:3px 0 4px}
+.step-btn{width:26px;height:26px;border-radius:8px;border:1px solid var(--border);background:var(--raised);display:grid;place-items:center;color:var(--text);flex:none}
+.step-btn .ico-sm{width:12px;height:12px;stroke-width:2.2}
+.big{font-family:var(--font-display);font-size:27px;line-height:1;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.big span{font-family:var(--font-body);font-size:8px;color:var(--muted2);font-weight:500;margin-left:1px;letter-spacing:0}
+.quick{display:flex;gap:3px}
+.quick span{flex:1;text-align:center;font-size:7.5px;font-weight:500;color:var(--muted);padding:4px 0;border-radius:6px;border:1px solid var(--border-soft);background:rgba(255,255,255,.02);font-variant-numeric:tabular-nums}
+.quick span.on{background:var(--lime);color:var(--ink);border-color:var(--lime);font-weight:600}
+.focus-divider{width:1px;background:var(--border-soft);margin:2px 0}
+.focus-cta{height:45px;margin:7px 16px 0;border-radius:13px;background:var(--lime);border:1px solid var(--lime-dim);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:5px;font-size:11.5px;font-weight:600;flex:none}
+.focus-cta .ico-sm{width:14px;height:14px;stroke-width:2.3}
+.next-line{display:flex;align-items:center;gap:4px;padding:7px 16px 0;font-size:8px;color:var(--muted2);flex:none}
+.next-line b{color:var(--text);font-weight:600}
+.next-line .ico-sm{width:11px;height:11px;margin-left:auto}
+
+/* ---------- progress screen ---------- */
+.page-head{padding:7px 16px 0;flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.page-head .eyebrow{font-size:7.5px;letter-spacing:1.5px;color:var(--lime)}
+.page-head h2{font-family:var(--font-display);font-size:28px;line-height:1;font-weight:600;letter-spacing:-.4px;margin:2px 0 0}
+.segmented{display:flex;gap:2px;margin:7px 16px 0;padding:3px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);flex:none}
+.segmented span{flex:1;text-align:center;padding:5px 0;border-radius:7px;font-size:7.5px;color:var(--muted2);font-weight:500}
+.segmented span.active{background:var(--raised);color:var(--lime);font-weight:600}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:7px 16px 0;flex:none}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:7px 8px}
+.stat .sl{font-size:6.5px;color:var(--muted2);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+.stat .sv{font-family:var(--font-display);font-size:21px;line-height:1;color:var(--text);margin-top:3px;font-variant-numeric:tabular-nums}
+.stat .sv em{font-family:var(--font-body);font-style:normal;font-size:7px;color:var(--muted2);margin-left:1px}
+.chart-card{margin:7px 16px 0;padding:9px 10px 7px;border-radius:15px;background:var(--surface);border:1px solid var(--border);flex:none}
+.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.chart-head .ct{font-size:7px;color:var(--muted2);letter-spacing:.8px;font-weight:600;text-transform:uppercase}
+.chart-head h3{font-size:9.5px;font-weight:600;color:var(--text);margin:2px 0 0}
+.metric-toggle{display:flex;gap:1px;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);padding:2px;border-radius:6px}
+.metric-toggle span{font-size:6.5px;color:var(--muted2);padding:3px 5px;border-radius:4px}
+.metric-toggle span.on{background:var(--raised);color:var(--lime)}
+.chart{margin-top:3px}
+.chart svg{width:100%;height:104px}
+.chart-foot{display:flex;align-items:center;justify-content:space-between;font-size:7px;color:var(--muted2);padding:2px 2px 0}
+.chart-foot .lg{display:flex;align-items:center;gap:4px}
+.chart-foot .dot{width:5px;height:5px;border-radius:50%;background:var(--lime)}
+.chart-foot .pr{display:flex;align-items:center;gap:3px;color:var(--lime)}
+.chart-foot .pr .ico-sm{width:9px;height:9px}
+.muscle-card{margin:7px 16px 0;padding:9px 10px 8px;border-radius:15px;background:var(--surface);border:1px solid var(--border);flex:none}
+.muscle-head{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.muscle-head h3{font-size:9.5px;font-weight:600;margin:0}
+.muscle-head a{font-size:7px;color:var(--lime);text-decoration:none;display:flex;align-items:center;gap:2px;font-weight:600}
+.muscle-head a .ico-sm{width:9px;height:9px}
+.m-row{display:grid;grid-template-columns:58px 1fr 17px;align-items:center;gap:6px;margin-top:6px;font-size:7.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.m-bar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.m-bar i{display:block;height:100%;border-radius:99px;background:var(--lime)}
+.m-bar i.teal{background:var(--teal)}
+.m-row b{font-weight:600;color:var(--text);text-align:right;font-size:7.5px}
+.m-legend{display:flex;gap:8px;margin-top:6px;font-size:6.5px;color:var(--muted2)}
+.m-legend span{display:flex;align-items:center;gap:3px}
+.m-legend i{width:5px;height:5px;border-radius:50%;background:var(--lime);display:block}
+.m-legend i.teal{background:var(--teal)}
+.m-note{margin-top:4px;font-size:7px;color:var(--muted2)}
+.m-note b{color:var(--teal);font-weight:600}
+
+/* ---------- annotations, tokens ---------- */
+.phone-note{font-size:10.5px;line-height:1.55;color:#8FA197;padding:0 5px;min-height:46px}
+.phone-note b{color:var(--text);font-weight:600}
+.key-changes{margin-top:44px}
+.key-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:16px}
+.key-head h2{font-family:var(--font-display);font-size:34px;font-weight:600;letter-spacing:-.5px;margin:7px 0 0}
+.key-head p{max-width:520px;margin:0;font-size:12px;line-height:1.65;color:#9EB0A5}
+.key-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.key-card{padding:16px;border-radius:18px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.09);min-height:130px}
+.key-card .kn{font-family:var(--font-display);font-size:28px;line-height:1;color:var(--lime);letter-spacing:-.5px}
+.key-card h3{font-size:12.5px;font-weight:600;margin:10px 0 4px}
+.key-card p{font-size:10.5px;line-height:1.55;color:#9EB0A5;margin:0}
+.style-strip{margin-top:42px}
+.style-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:16px}
+.style-head h2{font-family:var(--font-display);font-size:34px;font-weight:600;letter-spacing:-.5px;margin:7px 0 0}
+.style-head p{max-width:520px;margin:0;font-size:12px;line-height:1.65;color:#9EB0A5}
+.style-grid{display:grid;grid-template-columns:1.15fr 1fr 1.05fr 1fr;gap:14px}
+.style-card{padding:16px;border-radius:18px;background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.09);min-height:188px}
+.style-card .ck{font-size:8px;letter-spacing:1.4px;text-transform:uppercase;color:var(--lime);font-weight:600;margin-bottom:11px}
+.swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sw{height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.10)}
+.sw-wide{grid-column:span 3;height:28px}
+.sw-label{font-size:6.5px;color:var(--muted2);margin-top:3px;line-height:1.3}
+.sw-label b{display:block;color:var(--text);font-size:7.5px;font-weight:600;margin-bottom:1px}
+.type-big{font-family:var(--font-display);font-size:58px;line-height:.8;font-weight:600;letter-spacing:-1px}
+.type-name{font-size:10.5px;font-weight:600;margin-top:8px}
+.type-use{font-size:7px;color:var(--muted2);margin-top:1px}
+.type-row{display:flex;align-items:baseline;gap:9px;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.08)}
+.type-row .body{font-size:28px;line-height:1;font-weight:500;letter-spacing:-.3px}
+.type-note{font-size:7px;color:var(--muted2);margin-top:8px;line-height:1.5}
+.comp-stack{display:flex;flex-direction:column;gap:6px}
+.mini-rest{display:flex;align-items:center;gap:4px;font-size:7px;color:var(--lime);background:var(--lime-soft);border:1px solid rgba(212,245,138,.25);padding:4px 7px;border-radius:99px;width:max-content;font-weight:600}
+.mini-rest .ico-sm{width:10px;height:10px}
+.mini-set{display:grid;grid-template-columns:20px 1fr 1fr 16px;gap:3px;align-items:center;background:var(--raised);border:1px solid rgba(212,245,138,.35);border-radius:7px;padding:5px 6px;font-size:7px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mini-set b{color:var(--lime);font-weight:600}
+.mini-set .ico-sm{width:9px;height:9px;color:var(--lime);justify-self:end}
+.mini-chips{display:flex;gap:4px}
+.mini-chips span{font-size:6.5px;padding:3px 5px;border-radius:5px;background:var(--lime-soft);color:var(--lime);border:1px solid rgba(212,245,138,.18)}
+.mini-chips span.teal{background:var(--teal-soft);color:var(--teal);border-color:rgba(129,205,184,.22)}
+.mini-nav{display:flex;gap:12px;padding-top:2px;font-size:6.5px;color:var(--muted2)}
+.mini-nav span{display:flex;align-items:center;gap:3px}
+.mini-nav span.on{color:var(--lime)}
+.mini-nav i{width:4px;height:4px;border-radius:50%;background:currentColor;display:block}
+.principles{display:flex;flex-direction:column;gap:0}
+.pr{display:flex;gap:7px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.pr:last-child{border-bottom:0;padding-bottom:0}
+.pr .n{font-family:var(--font-display);font-size:11px;color:var(--lime);min-width:14px}
+.pr b{display:block;font-size:9px;font-weight:600}
+.pr span{display:block;font-size:7px;color:var(--muted2);margin-top:1px;line-height:1.4}
+.board-foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:26px;padding-top:14px;border-top:1px solid rgba(255,255,255,.10);font-size:9px;color:#71847A}
+.board-foot b{color:var(--text);font-weight:600}
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:9px;color:#95A79C}
+.flow .node{padding:3px 7px;border-radius:99px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09)}
+.flow .arr{color:#4F6258}
+
+.device-wrap{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.device-wrap:nth-child(2){animation-delay:.08s}
+.device-wrap:nth-child(3){animation-delay:.16s}
+.key-card,.style-card{animation:rise .65s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (max-width:1180px){.phones{grid-template-columns:repeat(2,360px)}.style-grid{grid-template-columns:repeat(2,1fr)}.key-grid{grid-template-columns:1fr}}
+@media (max-width:820px){.board{padding:28px 16px 40px}.board-head{flex-direction:column;align-items:flex-start}h1{font-size:56px}.head-meta{justify-content:flex-start}.phones{display:flex;overflow-x:auto;justify-content:flex-start;padding-bottom:14px}.device-wrap{flex:0 0 360px}.style-head,.key-head{flex-direction:column;align-items:flex-start}.style-grid{grid-template-columns:1fr}.key-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body style="margin:0;background:#070C0A">
+
+
+<svg class="sprite" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></symbol>
+  <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-6"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v5M8 21h8M9 18h6"/></symbol>
+  <symbol id="i-body" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M12 7v7M8 9l4-2 4 2M9 21l3-7 3 7"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 14"><rect x="1" y="2" width="18" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".55"/><rect x="3" y="4" width="13" height="6" rx="1.5" fill="currentColor"/><path d="M21 5v4c1.2-.3 1.2-3.7 0-4Z" fill="currentColor" opacity=".7"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 18 12"><rect x="0" y="8" width="2.5" height="4" rx="1" fill="currentColor"/><rect x="4" y="5.5" width="2.5" height="6.5" rx="1" fill="currentColor"/><rect x="8" y="3" width="2.5" height="9" rx="1" fill="currentColor"/><rect x="12" y="0" width="2.5" height="12" rx="1" fill="currentColor"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 20 14"><path d="M1.5 5.2C6.2 1.1 13.8 1.1 18.5 5.2M4.5 8.2c3.2-2.7 7.8-2.7 11 0M7.5 11.2c1.5-1.2 3.5-1.2 5 0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="tt-root">
+<main class="board">
+
+  <header class="board-head">
+    <div>
+      <div class="eyebrow">Concept 02 · Performance Dark</div>
+      <h1>Track Tạ <span class="v2">2.0</span></h1>
+      <p class="lede"><b>Nhanh trong buổi tập. Sâu khi nhìn lại.</b> Giữ nhận diện lime/ink, bớt phần chrome, đưa set đang tập lên trước và biến dữ liệu thành ngữ cảnh có thể hành động.</p>
+    </div>
+    <div class="head-meta">
+      <span class="pill"><span class="dot"></span>Mobile · 390×844</span>
+      <span class="pill">Dark · Barlow Condensed</span>
+      <span class="pill accent">Design proposal</span>
+    </div>
+  </header>
+
+  <section class="phones" aria-label="Ba màn hình concept Track Tạ 2.0">
+
+    <!-- ============ SCREEN 1 · SCHEDULE ============ -->
+    <article class="device-wrap">
+      <div class="screen-label"><span class="num">01</span> Lịch tập · gọn lại</div>
+      <div class="device">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="status-right">
+              <svg class="ico-sm"><use href="#i-signal"/></svg>
+              <svg class="ico-sm"><use href="#i-wifi"/></svg>
+              <svg class="ico-sm" style="width:18px"><use href="#i-battery"/></svg>
+            </span>
+          </div>
+
+          <div class="appbar">
+            <div class="logo-mark"><svg class="ico"><use href="#i-dumbbell"/></svg></div>
+            <span class="wordmark">track tạ</span>
+            <div class="rest-pill"><svg class="ico"><use href="#i-clock"/></svg>Nghỉ <b>01:30</b></div>
+          </div>
+
+          <div class="screen-body">
+            <div class="weekbar">
+              <span class="chev"><svg class="ico-sm"><use href="#i-chev-l"/></svg></span>
+              <div class="center">
+                <span class="week-kicker">Tuần 03</span>
+                <span class="week-range">20–26/10</span>
+              </div>
+              <span class="chev"><svg class="ico-sm"><use href="#i-chev-r"/></svg></span>
+            </div>
+
+            <div class="daystrip" aria-label="Các ngày trong tuần">
+              <div class="day"><span class="dow">T2</span><span class="dnum">20</span><span class="dlabel">Upper</span></div>
+              <div class="day"><span class="dow">T3</span><span class="dnum">21</span><span class="dlabel">Lower</span></div>
+              <div class="day rest"><span class="dow">T4</span><span class="dnum">22</span><svg class="ico-sm moon"><use href="#i-moon"/></svg></div>
+              <div class="day"><span class="dow">T5</span><span class="dnum">23</span><span class="dlabel">Push</span></div>
+              <div class="day active"><span class="dow">T6</span><span class="dnum">24</span><span class="dlabel">Pull</span></div>
+              <div class="day"><span class="dow">T7</span><span class="dnum">25</span><span class="dlabel">Legs</span></div>
+              <div class="day rest"><span class="dow">CN</span><span class="dnum">26</span><svg class="ico-sm moon"><use href="#i-moon"/></svg></div>
+            </div>
+
+            <div class="workout-card">
+              <div class="workout-top">
+                <span class="eyebrow-lime">Hôm nay · Thứ 6</span>
+                <span class="status-chip"><i></i>Đang tập</span>
+              </div>
+              <div class="workout-main">
+                <div>
+                  <h2>Lưng, xô &amp; tay trước</h2>
+                  <div class="meta">6 bài · <b>12/18 hiệp</b> · còn 6 hiệp</div>
+                </div>
+                <div class="ring"><div>67%<span>12/18</span></div></div>
+              </div>
+              <div class="progress"><i style="width:67%"></i></div>
+              <div class="workout-foot">
+                <span>Tuần trước 108 hiệp</span>
+                <span class="link">Vào focus <svg class="ico-sm"><use href="#i-arrow"/></svg></span>
+              </div>
+            </div>
+
+            <div class="section-title"><h3>Bài tập hôm nay</h3><span>12/18 hiệp</span></div>
+
+            <div class="exercise-card">
+              <div class="ex-head">
+                <span class="ex-index">01</span>
+                <div class="ex-title">
+                  <h3>Kéo xô hẹp tay</h3>
+                  <span>V-Bar Lat Pulldown</span>
+                </div>
+                <span class="tag lime">Đang tập</span>
+              </div>
+              <div class="ex-meta"><span>Tuần trước <b>40kg × 8</b></span><span>Mục tiêu <b>10–12 reps</b></span></div>
+              <div class="set-table">
+                <div class="set-head"><span>Hiệp</span><span>Tuần trước</span><span>Tạ × reps</span><span></span></div>
+                <div class="set-row done"><span>01</span><span>40 × 8</span><span>40 × 8</span><span class="check"><svg class="ico-sm"><use href="#i-check"/></svg></span></div>
+                <div class="set-row done"><span>02</span><span>40 × 8</span><span>37.5 × 10</span><span class="check"><svg class="ico-sm"><use href="#i-check"/></svg></span></div>
+                <div class="set-row active"><span>03</span><span>40 × 8</span><span>35 × 10</span><span class="ghi">Ghi</span></div>
+              </div>
+            </div>
+
+            <div class="next-ex"><span class="ex-index">02</span><div class="nx"><b>Hàng xô</b><span>Cable Row · 3 hiệp · 10–12 reps</span></div><span class="chev">›</span></div>
+            <div class="next-ex"><span class="ex-index">03</span><div class="nx"><b>Tay trước</b><span>3 hiệp · 10–12 reps</span></div><span class="chev">›</span></div>
+            <div class="next-ex"><span class="ex-index">04</span><div class="nx"><b>Mặt sau vai</b><span>Face Pull · 3 hiệp · 12–15 reps</span></div><span class="chev">›</span></div>
+            <div class="mini-summary">
+              <div><b>6</b><span>bài</span></div>
+              <div><b>18</b><span>hiệp</span></div>
+              <div><b>45′</b><span>dự kiến</span></div>
+            </div>
+            <div class="hint-strip"><b>Mẹo</b> Chạm hiệp để sửa · giữ hiệp để ghi nhanh</div>
+          </div>
+
+          <nav class="bottom-nav" aria-label="Điều hướng chính">
+            <div class="nav-item active"><svg class="ico"><use href="#i-grid"/></svg>Lịch tập</div>
+            <div class="nav-item"><svg class="ico"><use href="#i-chart"/></svg>Tiến độ</div>
+            <div class="nav-item"><svg class="ico"><use href="#i-sliders"/></svg>Dữ liệu</div>
+          </nav>
+        </div>
+      </div>
+      <div class="phone-note"><b>Set đầu tiên lên trên fold.</b> Bỏ tiêu đề lớn, gộp tuần + ngày nghỉ vào một strip 7 ngày có ngày thật.</div>
+    </article>
+
+    <!-- ============ SCREEN 2 · FOCUS ============ -->
+    <article class="device-wrap">
+      <div class="screen-label"><span class="num">02</span> Focus mode · ghi set</div>
+      <div class="device">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="status-right">
+              <svg class="ico-sm"><use href="#i-signal"/></svg>
+              <svg class="ico-sm"><use href="#i-wifi"/></svg>
+              <svg class="ico-sm" style="width:18px"><use href="#i-battery"/></svg>
+            </span>
+          </div>
+
+          <div class="focus-top">
+            <button class="icon-btn" aria-label="Đóng"><svg class="ico"><use href="#i-x"/></svg></button>
+            <span class="kicker">Buổi tập · Pull</span>
+            <button class="icon-btn" aria-label="Tạm dừng"><svg class="ico"><use href="#i-pause"/></svg></button>
+          </div>
+
+          <div class="focus-progress">
+            <div class="row">
+              <span class="time">00:32:10 <span>đã tập</span></span>
+              <span class="sets"><b>12/18</b> hiệp</span>
+            </div>
+            <div class="bar"><i></i></div>
+          </div>
+
+          <div class="focus-hero">
+            <div class="eyebrow-lime">Bài 01 / 06 · Hiệp 2</div>
+            <h2>Kéo xô hẹp tay</h2>
+            <div class="en">V-Bar Lat Pulldown</div>
+            <div class="chips">
+              <span class="tag lime">Xô · chính</span>
+              <span class="tag teal">Lưng trên · phụ</span>
+              <span class="body-link"><svg class="ico-sm"><use href="#i-body"/></svg>Cơ tác động</span>
+            </div>
+            <div class="targets"><span>Tuần trước <b>40 × 8</b></span><span>Mục tiêu <b>10–12 reps</b></span></div>
+          </div>
+
+          <div class="set-strip">
+            <div class="set-chip"><span>01</span><b>40×8</b><svg class="ico-sm"><use href="#i-check"/></svg></div>
+            <div class="set-chip active"><span>02</span><b>37.5×10</b><em>đang ghi</em></div>
+            <div class="set-chip"><span>03</span><b>—</b><em>chờ</em></div>
+          </div>
+
+          <div class="rest-banner">
+            <div class="rest-ring"><div>01:28</div></div>
+            <div class="rt"><b>Nghỉ sau hiệp 1</b><span>Hết lúc 9:43 · tự động chuyển</span></div>
+            <span class="plus">+30s</span>
+            <span class="skip">Bỏ qua</span>
+          </div>
+          <div class="coach-cue"><b>Coach</b> Giữ vai thả lỏng, kéo bằng khuỷu; hít vào 3 giây, thở ra khi kéo.</div>
+
+          <div class="input-card">
+            <div class="field">
+              <div class="label">Tạ (kg)</div>
+              <div class="stepper">
+                <button class="step-btn" aria-label="Giảm tạ"><svg class="ico-sm"><use href="#i-minus"/></svg></button>
+                <div class="big">37.5<span>kg</span></div>
+                <button class="step-btn" aria-label="Tăng tạ"><svg class="ico-sm"><use href="#i-plus"/></svg></button>
+              </div>
+              <div class="quick"><span>35</span><span class="on">37.5</span><span>40</span></div>
+            </div>
+            <div class="focus-divider"></div>
+            <div class="field">
+              <div class="label">Reps</div>
+              <div class="stepper">
+                <button class="step-btn" aria-label="Giảm reps"><svg class="ico-sm"><use href="#i-minus"/></svg></button>
+                <div class="big">10</div>
+                <button class="step-btn" aria-label="Tăng reps"><svg class="ico-sm"><use href="#i-plus"/></svg></button>
+              </div>
+              <div class="quick"><span>8</span><span class="on">10</span><span>12</span></div>
+            </div>
+          </div>
+
+          <button class="focus-cta"><svg class="ico-sm"><use href="#i-check"/></svg>Lưu hiệp · 2/3</button>
+          <div class="next-line">Tiếp theo <b>Hàng xô</b> · 3 hiệp <svg class="ico-sm"><use href="#i-chev-r"/></svg></div>
+          <div class="queue-card">
+            <div class="queue-head">Hàng đợi <span>2 bài</span></div>
+            <div class="queue-row"><span class="qidx">02</span><b>Hàng xô</b><span>· 3 hiệp</span><span class="qchev">›</span></div>
+            <div class="queue-row"><span class="qidx">03</span><b>Tay trước</b><span>· 3 hiệp</span><span class="qchev">›</span></div>
+          </div>
+          <div class="focus-note"><b>Ghi chú:</b> cảm thấy khỏe, tăng 2.5kg ở set cuối.</div>
+          <div class="session-stats">
+            <div><b>12</b><span>hiệp đã ghi</span></div>
+            <div><b>4.2</b><span>tấn volume</span></div>
+            <div><b>32′</b><span>thời gian</span></div>
+          </div>
+          <div class="end-link"><b>Kết thúc buổi tập</b> · lưu nháp tự động</div>
+        </div>
+      </div>
+      <div class="phone-note"><b>Tạ/Reps 2 cột, stepper + quick chip.</b> Sơ đồ cơ chuyển thành chip; tuần trước nằm ngay cạnh input; nghỉ có banner riêng.</div>
+    </article>
+
+    <!-- ============ SCREEN 3 · PROGRESS ============ -->
+    <article class="device-wrap">
+      <div class="screen-label"><span class="num">03</span> Tiến độ · có ngữ cảnh</div>
+      <div class="device">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="status-right">
+              <svg class="ico-sm"><use href="#i-signal"/></svg>
+              <svg class="ico-sm"><use href="#i-wifi"/></svg>
+              <svg class="ico-sm" style="width:18px"><use href="#i-battery"/></svg>
+            </span>
+          </div>
+
+          <div class="appbar">
+            <div class="logo-mark" style="width:26px;height:26px;border-radius:8px"><svg class="ico" style="width:15px;height:15px"><use href="#i-dumbbell"/></svg></div>
+            <span class="wordmark" style="font-size:18px">track tạ</span>
+            <button class="icon-btn" style="margin-left:auto;width:28px;height:28px" aria-label="Bộ lọc"><svg class="ico-sm"><use href="#i-filter"/></svg></button>
+          </div>
+
+          <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+            <div class="page-head">
+              <div><div class="eyebrow">Tiến độ</div><h2>Nhìn lại</h2></div>
+              <span style="font-size:7.5px;color:var(--muted2);padding-bottom:3px">So với 4 tuần trước</span>
+            </div>
+
+            <div class="segmented">
+              <span class="active">4 tuần</span><span>3 tháng</span><span>Tất cả</span>
+            </div>
+
+            <div class="stat-row">
+              <div class="stat"><div class="sl">Buổi tập</div><div class="sv">6<em>tuần này</em></div></div>
+              <div class="stat"><div class="sl">PR</div><div class="sv">45<em>kg</em></div></div>
+              <div class="stat"><div class="sl">Chuỗi</div><div class="sv">4<em>tuần</em></div></div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-head">
+                <div><div class="ct">Mức tạ cao nhất</div><h3>Kéo xô hẹp tay</h3></div>
+                <div class="metric-toggle"><span class="on">Tạ</span><span>Volume</span></div>
+              </div>
+              <div class="chart">
+                <svg viewBox="0 0 300 104" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#D4F58A" stop-opacity=".22"/>
+                      <stop offset="1" stop-color="#D4F58A" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <g stroke="rgba(255,255,255,.09)" stroke-width="1">
+                    <line x1="26" y1="14" x2="292" y2="14"/>
+                    <line x1="26" y1="42" x2="292" y2="42"/>
+                    <line x1="26" y1="70" x2="292" y2="70"/>
+                  </g>
+                  <g fill="#7E9187" font-family="Barlow" font-size="7" text-anchor="end">
+                    <text x="20" y="17">45</text><text x="20" y="45">40</text><text x="20" y="73">35</text>
+                  </g>
+                  <path d="M30 64 C55 58 70 54 92 50 S130 54 154 40 S190 44 214 30 S252 36 288 20 L288 88 L30 88 Z" fill="url(#area)"/>
+                  <path d="M30 64 C55 58 70 54 92 50 S130 54 154 40 S190 44 214 30 S252 36 288 20" fill="none" stroke="#D4F58A" stroke-width="2.4" stroke-linecap="round"/>
+                  <circle cx="288" cy="20" r="4.5" fill="#D4F58A" stroke="#0E1513" stroke-width="2"/>
+                  <g fill="#7E9187" font-family="Barlow" font-size="6.5" text-anchor="middle">
+                    <text x="40" y="101">T1</text><text x="92" y="101">T2</text><text x="144" y="101">T3</text><text x="196" y="101">T4</text><text x="248" y="101">T5</text><text x="292" y="101">T6</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="chart-foot">
+                <span class="lg"><i class="dot"></i>Tạ cao nhất</span>
+                <span class="pr"><svg class="ico-sm"><use href="#i-trophy"/></svg>PR 45kg · tuần 6</span>
+              </div>
+            </div>
+
+            <div class="muscle-card">
+              <div class="muscle-head"><h3>Cân bằng tuần này</h3><a href="#" onclick="return false">Bản đồ cơ <svg class="ico-sm"><use href="#i-chev-r"/></svg></a></div>
+              <div class="m-row"><span>Xô</span><div class="m-bar"><i style="width:90%"></i></div><b>9</b></div>
+              <div class="m-row"><span>Lưng trên</span><div class="m-bar"><i style="width:64%"></i></div><b>6</b></div>
+              <div class="m-row"><span>Tay trước</span><div class="m-bar"><i class="teal" style="width:64%"></i></div><b>6</b></div>
+              <div class="m-row"><span>Ngực</span><div class="m-bar"><i style="width:2%;opacity:.5"></i></div><b>0</b></div>
+              <div class="m-legend"><span><i></i>Chính</span><span><i class="teal"></i>Phụ</span><span style="margin-left:auto;color:var(--teal)">Ngực 0 hiệp</span></div>
+              <div class="m-note">Thêm 1 buổi đẩy để cân bằng tuần sau.</div>
+            </div>
+          </div>
+
+          <nav class="bottom-nav" aria-label="Điều hướng chính">
+            <div class="nav-item"><svg class="ico"><use href="#i-grid"/></svg>Lịch tập</div>
+            <div class="nav-item active"><svg class="ico"><use href="#i-chart"/></svg>Tiến độ</div>
+            <div class="nav-item"><svg class="ico"><use href="#i-sliders"/></svg>Dữ liệu</div>
+          </nav>
+        </div>
+      </div>
+      <div class="phone-note"><b>Chart có range + trục + PR;</b> cân bằng cơ được đưa lên Tiến độ với legend chính/phụ, thay vì bị chôn trong màn phụ.</div>
+    </article>
+
+  </section>
+
+  <section class="key-changes">
+    <div class="key-head">
+      <div><div class="eyebrow">Vì sao đổi</div><h2>Ba thay đổi then chốt.</h2></div>
+      <p>Không thêm decoration. Chỉ giảm ma sát ở đúng khoảnh khắc người dùng cần: bắt đầu buổi, ghi một set, và hiểu tuần của mình.</p>
+    </div>
+    <div class="key-grid">
+      <div class="key-card"><div class="kn">01</div><h3>Bớt chrome, set lên trước</h3><p>Header gọn còn logo + tuần + timer; card buổi tập ngắn lại. Set đầu tiên nằm ngay dưới fold thay vì sau 2 lần cuộn.</p></div>
+      <div class="key-card"><div class="kn">02</div><h3>Focus mode + nghỉ liền mạch</h3><p>Tạ/Reps hai cột, stepper và quick chip; tuần trước ngay cạnh; rest banner luôn hiện với +30s / bỏ qua.</p></div>
+      <div class="key-card"><div class="kn">03</div><h3>Dữ liệu có ngữ cảnh</h3><p>Ngày thật, ngày nghỉ, range selector, trục chart, PR và legend cơ. Người dùng thấy “tuần này” thay vì chỉ thấy con số.</p></div>
+    </div>
+  </section>
+
+  <section class="style-strip">
+    <div class="style-head">
+      <div><div class="eyebrow">Design system · đề xuất</div><h2>Performance Dark.</h2></div>
+      <p>Giữ lime/ink vì đã có nhận diện; thêm Barlow Condensed cho số và tiêu đề để hợp không khí phòng gym, Barlow cho nội dung tiếng Việt.</p>
+    </div>
+    <div class="style-grid">
+      <div class="style-card">
+        <div class="ck">Màu có nghĩa</div>
+        <div class="swatches">
+          <div><div class="sw" style="background:#0E1513"></div><div class="sw-label"><b>Ink</b>#0E1513</div></div>
+          <div><div class="sw" style="background:#17211E"></div><div class="sw-label"><b>Surface</b>#17211E</div></div>
+          <div><div class="sw" style="background:#D4F58A"></div><div class="sw-label"><b>Lime</b>#D4F58A</div></div>
+          <div><div class="sw" style="background:#81CDB8"></div><div class="sw-label"><b>Teal</b>#81CDB8</div></div>
+          <div><div class="sw" style="background:#FFACA0"></div><div class="sw-label"><b>Salmon</b>#FFACA0</div></div>
+          <div><div class="sw" style="background:#A7B8AF"></div><div class="sw-label"><b>Muted</b>#A7B8AF</div></div>
+        </div>
+        <div class="type-note">Lime = primary/active. Teal = dữ liệu phụ. Salmon = destructive. Không dùng lime cho mọi thứ.</div>
+      </div>
+      <div class="style-card">
+        <div class="ck">Typography</div>
+        <div class="type-big">Aa</div>
+        <div class="type-name">Barlow Condensed</div>
+        <div class="type-use">Tiêu đề · số tạ/reps · navigation</div>
+        <div class="type-row"><div class="body">Aa</div><div><div class="type-name" style="margin:0">Barlow</div><div class="type-use">Body · label · ghi chú</div></div></div>
+        <div class="type-note">Có subset tiếng Việt; dùng tabular numerals cho cột tạ/reps.</div>
+      </div>
+      <div class="style-card">
+        <div class="ck">Components</div>
+        <div class="comp-stack">
+          <div class="mini-rest"><svg class="ico-sm"><use href="#i-clock"/></svg>Nghỉ 01:28 · +30s</div>
+          <div class="mini-set"><span>03</span><span>40 × 8</span><b>37.5 × 10</b><svg class="ico-sm"><use href="#i-check"/></svg></div>
+          <div class="mini-chips"><span>Xô · chính</span><span class="teal">Lưng trên · phụ</span></div>
+          <div class="mini-nav"><span class="on"><i></i>Lịch tập</span><span>Tiến độ</span><span>Dữ liệu</span></div>
+        </div>
+      </div>
+      <div class="style-card">
+        <div class="ck">Principles</div>
+        <div class="principles">
+          <div class="pr"><div class="n">01</div><div><b>Một hành động chính</b><span>Ghi set là trung tâm, không phải header.</span></div></div>
+          <div class="pr"><div class="n">02</div><div><b>Dữ liệu có ngữ cảnh</b><span>Tuần trước, mục tiêu, PR ở ngay cạnh.</span></div></div>
+          <div class="pr"><div class="n">03</div><div><b>Màu có nghĩa</b><span>Lime/teal/salmon không dùng trang trí.</span></div></div>
+          <div class="pr"><div class="n">04</div><div><b>Ngày nghỉ cũng là dữ liệu</b><span>Hiện trong strip, không ẩn ở footnote.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="board-foot">
+    <div class="flow" aria-label="Luồng chính">
+      <span class="node">Lịch tập</span><span class="arr">→</span>
+      <span class="node">Focus</span><span class="arr">→</span>
+      <span class="node">Ghi set</span><span class="arr">→</span>
+      <span class="node">Nghỉ</span><span class="arr">→</span>
+      <span class="node">Tiến độ</span>
+    </div>
+    <div><b>Track Tạ 2.0</b> · dữ liệu minh hoạ · đã áp dụng trong Android 2.0.0</div>
+  </footer>
+
+</main>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.segmented span').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.parentElement.querySelectorAll('.active').forEach(function(x){x.classList.remove('active')});
+      el.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.metric-toggle span').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.parentElement.querySelectorAll('.on').forEach(function(x){x.classList.remove('on')});
+      el.classList.add('on');
+    });
+  });
+  document.querySelectorAll('.quick span').forEach(function(el){
+    el.addEventListener('click', function(){
+      el.parentElement.querySelectorAll('.on').forEach(function(x){x.classList.remove('on')});
+      el.classList.add('on');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
